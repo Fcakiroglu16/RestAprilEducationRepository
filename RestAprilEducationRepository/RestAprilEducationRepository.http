@@ -1,0 +1,6 @@
+@RestAprilEducationRepository_HostAddress = http://localhost:5095
+
+GET {{RestAprilEducationRepository_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
