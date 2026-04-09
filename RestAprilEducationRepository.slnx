@@ -1,3 +1,20 @@
 <Solution>
-  <Project Path="RestAprilEducationRepository/RestAprilEducationRepository.API.csproj" />
+  <Folder Name="/src/" />
+  <Folder Name="/src/Application/">
+    <Project Path="RestAprilEducationRepository.Application/RestAprilEducationRepository.Application.csproj" Id="53cdd1c4-a5cb-4d4d-93a4-d758fc1330c3" />
+  </Folder>
+  <Folder Name="/src/Domain/">
+    <Project Path="RestAprilEducationRepository.Domain/RestAprilEducationRepository.Domain.csproj" Id="a21feb47-fc66-4635-8f2c-cdd4dceb598d" />
+  </Folder>
+  <Folder Name="/src/Instrastructure/" />
+  <Folder Name="/src/Instrastructure/Broker/" />
+  <Folder Name="/src/Instrastructure/Caching/" />
+  <Folder Name="/src/Instrastructure/Logging/" />
+  <Folder Name="/src/Instrastructure/Persistence/">
+    <Project Path="RestAprilEducationRepository.Persistence/RestAprilEducationRepository.Persistence.csproj" Id="a0f2e6fb-0bb6-4e13-8614-14ecaa9263ef" />
+  </Folder>
+  <Folder Name="/src/Presentation/">
+    <Project Path="RestAprilEducationRepository/RestAprilEducationRepository.API.csproj" />
+  </Folder>
+  <Folder Name="/test/" />
 </Solution>

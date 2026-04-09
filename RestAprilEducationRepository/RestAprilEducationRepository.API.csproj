@@ -8,11 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.13.20" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\Services\" />
     <Folder Include="Models\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RestAprilEducationRepository.Application\RestAprilEducationRepository.Application.csproj" />
+    <ProjectReference Include="..\RestAprilEducationRepository.Persistence\RestAprilEducationRepository.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
