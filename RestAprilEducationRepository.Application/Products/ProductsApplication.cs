@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RestAprilEducationRepository.Application.Products.Create;
 using RestAprilEducationRepository.Application.Products.GetList;

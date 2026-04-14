@@ -1,4 +1,6 @@
-﻿namespace RestAprilEducationRepository.API.Endpoints.Products
+﻿using Asp.Versioning.Builder;
+
+namespace RestAprilEducationRepository.API.Endpoints.Products
 {
     public static class ProductEndpoints
     {
@@ -6,9 +8,11 @@
         // route data =  /api/products/1      /api/products/pagesize/10/pageindex/1
         // body
         // header
-        public static void AddProductEndpoints(this WebApplication app)
+        public static void AddProductEndpoints(this WebApplication app, ApiVersionSet apiVersionSet)
         {
-            app.MapGroup("api/products")
+            //route constraint => int, bool, datetime, decimal, double, float, guid
+            // api/v1/products
+            app.MapGroup("api/v{version:apiVersion}/products").WithApiVersionSet(apiVersionSet)
                 .AddGetAllProductEndpoint()
                 .AddGetAllWithPagedProductEndpoint()
                 .AddCreateProductEndpoint()

@@ -38,7 +38,7 @@ namespace RestAprilEducationRepository.Persistence
             throw new NotImplementedException();
         }
 
-        public Task<object> GetAllWithPagedAsync(int pageNumber, int pageSize)
+        public Task<List<Product>> GetAllWithPagedAsync(int pageNumber, int pageSize)
         {
             throw new NotImplementedException();
         }

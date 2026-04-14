@@ -6,13 +6,14 @@ namespace RestAprilEducationRepository.API.Endpoints.Products
 {
     public static class DeleteProductEndpoints
     {
-        // DELETE api/products/1
+        // DELETE api/products/ahmet
         public static RouteGroupBuilder AddDeleteProductEndpoint(this RouteGroupBuilder group)
         {
             group.MapDelete("/{id:int}",
                 async ([FromRoute] int id,
-                    [FromServices] IProductsApplication productsApplication) =>
-                    (await productsApplication.Delete(id)).ToResult());
+                        [FromServices] IProductsApplication productsApplication) =>
+                    (await productsApplication.Delete(id)).ToResult()).MapToApiVersion(1, 0);
+
 
             return group;
         }

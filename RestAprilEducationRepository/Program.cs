@@ -1,5 +1,9 @@
+using FluentValidation;
 using RestAprilEducationRepository.API.Endpoints.Products;
+using RestAprilEducationRepository.API.Extensions;
+using RestAprilEducationRepository.Application;
 using RestAprilEducationRepository.Application.Products;
+using RestAprilEducationRepository.Application.Products.Create;
 using RestAprilEducationRepository.Persistence;
 using Scalar.AspNetCore;
 
@@ -26,11 +30,13 @@ builder.Services.AddScoped<IProductsApplication, ProductsApplication>();
 builder.Services.AddScoped<IProductRepository, ProductRepositoryWithInMemory>();
 
 
+builder.Services.AddValidatorsFromAssemblyContaining<ApplicationAssembly>();
+builder.Services.AddVersioningExt();
 var app = builder.Build();
 
 
-app.AddProductEndpoints();
-
+app.AddProductEndpoints(app.AddVersionSetExt());
+app.AddVersionSetExt();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
