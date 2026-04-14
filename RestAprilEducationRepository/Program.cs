@@ -27,7 +27,9 @@ builder.Services.AddOpenApi();
 // Transient > Scoped > Singleton
 builder.Services.AddSingleton<ICalculateService, CalculateService>();
 builder.Services.AddScoped<IProductsApplication, ProductsApplication>();
-builder.Services.AddScoped<IProductRepository, ProductRepositoryWithInMemory>();
+builder.Services.AddRepositoriesExt();
+
+
 
 
 builder.Services.AddValidatorsFromAssemblyContaining<ApplicationAssembly>();
