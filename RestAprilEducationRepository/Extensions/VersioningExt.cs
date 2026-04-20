@@ -16,7 +16,8 @@ public static class VersioningExt
             options.DefaultApiVersion = new ApiVersion(1, 0);
             options.AssumeDefaultVersionWhenUnspecified = true;
             options.ReportApiVersions = true;
-            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            options.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("version"),
+                new HeaderApiVersionReader("x-version"), new UrlSegmentApiVersionReader());
         }).AddApiExplorer(options =>
         {
             options.GroupNameFormat = "'v'V";
@@ -32,7 +33,9 @@ public static class VersioningExt
     {
         ApiVersionSet apiVersionSet = app.NewApiVersionSet()
             .HasApiVersion(new ApiVersion(1, 0))
+            .HasApiVersion(new ApiVersion(2, 0))
             .HasApiVersion(new ApiVersion(2, 1))
+            .HasApiVersion(new ApiVersion(3, 1))
             .ReportApiVersions()
             .Build();
         return apiVersionSet;

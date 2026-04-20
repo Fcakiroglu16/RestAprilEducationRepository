@@ -1,4 +1,6 @@
 ﻿using Asp.Versioning.Builder;
+using RestAprilEducationRepository.API.Endpoints.Products.Create.V1;
+using RestAprilEducationRepository.API.Endpoints.Products.Create.V2;
 
 namespace RestAprilEducationRepository.API.Endpoints.Products
 {
@@ -16,6 +18,7 @@ namespace RestAprilEducationRepository.API.Endpoints.Products
                 .AddGetAllProductEndpoint()
                 .AddGetAllWithPagedProductEndpoint()
                 .AddCreateProductEndpoint()
+                .AddCreateProductV2Endpoint()
                 .AddUpdateProductEndpoint()
                 .AddDeleteProductEndpoint();
         }

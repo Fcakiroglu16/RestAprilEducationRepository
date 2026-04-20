@@ -1,4 +1,5 @@
 using RestAprilEducationRepository.Application;
+using RestAprilEducationRepository.Application.Products;
 using RestAprilEducationRepository.Persistence;
 
 namespace RestAprilEducationRepository.API.Extensions;
@@ -21,6 +22,8 @@ public static class PersistenceExt
             if (implementationType is not null)
                 services.AddScoped(serviceType, implementationType);
         }
+
+        services.AddScoped<IProductRepository, ProductRepositoryWithInMemory>();
 
         return services;
     }

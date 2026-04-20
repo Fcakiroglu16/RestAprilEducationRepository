@@ -4,7 +4,7 @@ namespace RestAprilEducationRepository.Application.Products.Create;
 
 public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
 {
-    public CreateProductRequestValidator(IProductRepository productRepository)
+    public CreateProductRequestValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("isim alanı boş olamaz")

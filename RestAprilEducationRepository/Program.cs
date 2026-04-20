@@ -1,5 +1,6 @@
 using FluentValidation;
 using RestAprilEducationRepository.API.Endpoints.Products;
+using RestAprilEducationRepository.API.Endpoints.Versioning;
 using RestAprilEducationRepository.API.Extensions;
 using RestAprilEducationRepository.Application;
 using RestAprilEducationRepository.Application.Products;
@@ -37,8 +38,9 @@ builder.Services.AddVersioningExt();
 var app = builder.Build();
 
 
-app.AddProductEndpoints(app.AddVersionSetExt());
-app.AddVersionSetExt();
+var apiVersionSet = app.AddVersionSetExt();
+app.AddProductEndpoints(apiVersionSet);
+app.AddVersionExampleEndpoints(apiVersionSet);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
