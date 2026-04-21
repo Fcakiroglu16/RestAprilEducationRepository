@@ -17,4 +17,9 @@
     <Project Path="RestAprilEducationRepository/RestAprilEducationRepository.API.csproj" />
   </Folder>
   <Folder Name="/test/" />
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+  <Project Path="RestAprilEducationRepository.AppHost/RestAprilEducationRepository.AppHost.csproj" Id="75180398-b7a4-4190-97f3-42ec0b60fafa" />
+  <Project Path="RestAprilEducationRepository.ServiceDefaults/RestAprilEducationRepository.ServiceDefaults.csproj" />
 </Solution>

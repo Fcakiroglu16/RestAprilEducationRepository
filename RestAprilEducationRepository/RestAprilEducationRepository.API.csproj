@@ -4,13 +4,21 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e39e1e47-4c23-46b1-9515-43da1c2118f3</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Http" Version="8.1.1" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.13.20" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.3" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.14.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RestAprilEducationRepository.Application\RestAprilEducationRepository.Application.csproj" />
     <ProjectReference Include="..\RestAprilEducationRepository.Persistence\RestAprilEducationRepository.Persistence.csproj" />
+    <ProjectReference Include="..\RestAprilEducationRepository.ServiceDefaults\RestAprilEducationRepository.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

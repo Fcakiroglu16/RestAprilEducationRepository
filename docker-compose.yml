@@ -1,0 +1,60 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.1.2-alpine
+    ports:
+      - "9000:9000"
+      - "8123:8123"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse/
+    environment:
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "localhost:8123/ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  signoz-query-service:
+    image: signoz/query-service:0.66.0
+    ports:
+      - "8090:8080"
+      - "8085:8085"
+    environment:
+      - ClickHouseUrl=tcp://clickhouse:9000
+      - STORAGE=clickhouse
+      - GODEBUG=netdns=go
+      - TELEMETRY_ENABLED=false
+      - DEPLOYMENT_TYPE=docker-standalone-amd
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    restart: on-failure
+    volumes:
+      - signoz-data:/root/data
+
+  signoz-frontend:
+    image: signoz/frontend:0.66.0
+    ports:
+      - "3301:3301"
+    depends_on:
+      - signoz-query-service
+    restart: on-failure
+
+  signoz-otel-collector:
+    image: signoz/signoz-otel-collector:0.111.4
+    command:
+      - "--config=/etc/otel-collector-config.yaml"
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  clickhouse-data:
+  signoz-data:
