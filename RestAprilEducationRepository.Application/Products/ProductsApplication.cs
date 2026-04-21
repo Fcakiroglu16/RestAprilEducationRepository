@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RestAprilEducationRepository.Application.Products.Create;
 using RestAprilEducationRepository.Application.Products.GetList;
 using RestAprilEducationRepository.Application.Products.Update;
@@ -11,10 +12,28 @@ using RestAprilEducationRepository.Domain;
 
 namespace RestAprilEducationRepository.Application.Products
 {
-    public class ProductsApplication(IProductRepository productRepository) : IProductsApplication
+    public class ProductsApplication(
+        IProductRepository productRepository,
+        ILogger<ProductsApplication> logger,
+        ILoggerFactory loggerFactory) : IProductsApplication
     {
         public async Task<ApplicationResult<List<ProductDto>>> GetAll()
         {
+            //trace
+            //debug
+            // information
+            //warning
+            // error
+            // critical
+
+
+            logger.LogInformation("GetAll methodu çalıştı");
+
+            var loggerFromFactory = loggerFactory.CreateLogger("ProductsApplicationCategoryName");
+
+            loggerFromFactory.LogInformation("GetAll methodu çalıştı2");
+
+
             var productList = await productRepository.GetAllAsync();
 
             var productsAsDto = productList.Select(product =>
