@@ -25,35 +25,6 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-// OpenTelemetry — Traces, Metrics, Logs → SigNoz üzerinden ClickHouse'a gönderilir
-var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"] ?? "http://signoz-otel-collector:4317";
-
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(r => r.AddService(
-        serviceName: builder.Configuration["OTEL_SERVICE_NAME"] ?? "RestAprilEducationRepository.API",
-        serviceVersion: "1.0.0"))
-    .WithTracing(tracing => tracing
-        .AddAspNetCoreInstrumentation()
-        .AddHttpClientInstrumentation()
-        .AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)))
-    .WithMetrics(metrics => metrics
-        .AddAspNetCoreInstrumentation()
-        .AddHttpClientInstrumentation()
-        .AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)));
-
-builder.Logging.AddOpenTelemetry(logging =>
-{
-    logging.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint));
-});
-
-//DI Container Framework ( Library ) IoC Container Framework
-
-//  DI+ IoC =>  DI Pattern
-
-//Singleton
-//Scoped
-//Transient
-//builder.Services.AddSingleton<CalculateService>();
 
 // Transient > Scoped > Singleton
 builder.Services.AddSingleton<ICalculateService, CalculateService>();
