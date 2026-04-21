@@ -5,7 +5,7 @@ namespace RestAprilEducationRepository.API.Metrics;
 /// <summary>
 /// Uygulamaya ait OpenTelemetry/System.Diagnostics.Metrics instrument tanımları.
 /// </summary>
-public sealed class AppMetrics : IDisposable
+public sealed class AppMetrics
 {
     public const string MeterName = "RestAprilEducation.API";
 
@@ -16,7 +16,7 @@ public sealed class AppMetrics : IDisposable
     /// Her çağrıda yalnızca artırılabilir, hiçbir zaman azalmaz.
     /// Örnek kullanım: toplam sipariş sayısı, toplam istek sayısı.
     /// </summary>
-    public Counter<long> OrdersCreated { get; }
+    public Counter<int> OrdersCreated { get; }
 
     /// <summary>
     /// Hem artabilen hem azalabilen metric (UpDownCounter).
@@ -29,7 +29,7 @@ public sealed class AppMetrics : IDisposable
         _meter = new Meter(MeterName);
 
 
-        OrdersCreated = _meter.CreateCounter<long>(
+        OrdersCreated = _meter.CreateCounter<int>(
             name: "orders.created",
             unit: "{order}",
             description: "Şimdiye kadar oluşturulan toplam sipariş sayısı (sürekli artar).");
@@ -39,6 +39,4 @@ public sealed class AppMetrics : IDisposable
             unit: "{connection}",
             description: "Anlık aktif bağlantı sayısı (artabilir veya azalabilir).");
     }
-
-    public void Dispose() => _meter.Dispose();
 }
