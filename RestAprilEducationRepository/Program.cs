@@ -4,6 +4,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using RestAprilEducationRepository.API.Endpoints.ExceptionHandlerExamples;
+using RestAprilEducationRepository.API.Endpoints.Metrics;
 using RestAprilEducationRepository.API.Endpoints.Products;
 using RestAprilEducationRepository.API.Endpoints.Versioning;
 using RestAprilEducationRepository.API.ExceptionsHandlers;
@@ -52,6 +53,7 @@ app.AddProductEndpoints(apiVersionSet);
 app.AddVersionExampleEndpoints(apiVersionSet);
 
 app.AddExceptionHandlerExampleEndpoint();
+app.AddMetricsEndpoints();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
