@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Asp.Versioning.Http" Version="8.1.1" />
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.13.20" />
+    <PackageReference Include="Asp.Versioning.Http" Version="10.0.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.14.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RestAprilEducationRepository.Application\RestAprilEducationRepository.Application.csproj" />
     <ProjectReference Include="..\RestAprilEducationRepository.Persistence\RestAprilEducationRepository.Persistence.csproj" />
+    <ProjectReference Include="..\RestAprilEducationRepository.ServiceDefaults\RestAprilEducationRepository.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

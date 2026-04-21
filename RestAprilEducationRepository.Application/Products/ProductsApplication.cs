@@ -31,7 +31,7 @@ namespace RestAprilEducationRepository.Application.Products
 
             var loggerFromFactory = loggerFactory.CreateLogger("ProductsApplicationCategoryName");
 
-            loggerFromFactory.LogInformation("GetAll methodu çalıştı2");
+            loggerFromFactory.LogInformation("GetAll methodu çalıştı 2");
 
 
             var productList = await productRepository.GetAllAsync();

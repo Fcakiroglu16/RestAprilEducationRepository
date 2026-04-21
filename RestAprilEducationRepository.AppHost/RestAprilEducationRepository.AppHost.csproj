@@ -1,0 +1,16 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.2.2">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>0e9ae790-ffca-4a51-9084-0808593446a2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RestAprilEducationRepository.RazorPages\RestAprilEducationRepository.RazorPages.csproj" />
+    <ProjectReference Include="..\RestAprilEducationRepository\RestAprilEducationRepository.API.csproj" />
+  </ItemGroup>
+
+</Project>
