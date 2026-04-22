@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Numerics;
 using System.Text;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,6 @@ namespace RestAprilEducationRepository.Application.Products
     {
         public async Task<ApplicationResult<List<ProductDto>>> GetAll()
         {
-            //trace
-            //debug
-            // information
-            //warning
-            // error
-            // critical
-
-
             logger.LogInformation("GetAll methodu çalıştı");
 
             var loggerFromFactory = loggerFactory.CreateLogger("ProductsApplicationCategoryName");
@@ -61,7 +54,7 @@ namespace RestAprilEducationRepository.Application.Products
 
             //Result Pattern => Success, Failure
 
-            if (hasProduct)
+            if (hasProduct is not null)
             {
                 return ApplicationResult<CreateProductResponse>.Failure("Product with the same name already exists.",
                     HttpStatusCode.BadRequest);
@@ -74,13 +67,13 @@ namespace RestAprilEducationRepository.Application.Products
             {
                 Name = request.Name,
                 Price = request.Price,
-                Barcode = barcode
+                Barcode = barcode,
+                CategoryId = request.CategoryId
             };
+            await productRepository.AddAsync(product);
 
-            var createdProduct = await productRepository.CreateAsync(product);
 
-
-            return ApplicationResult<CreateProductResponse>.Success(new CreateProductResponse(createdProduct.Id));
+            return ApplicationResult<CreateProductResponse>.Success(new CreateProductResponse(product.Id));
         }
 
         public async Task<ApplicationResult> Update(int id, UpdateProductRequest request)
@@ -94,7 +87,7 @@ namespace RestAprilEducationRepository.Application.Products
 
             var hasProductWithSameName = await productRepository.AnyAsync(request.Name);
 
-            if (hasProductWithSameName && product.Name != request.Name)
+            if (hasProductWithSameName != null && product.Name != request.Name)
             {
                 return ApplicationResult.Failure("Product with the same name already exists.",
                     HttpStatusCode.BadRequest);
@@ -117,7 +110,7 @@ namespace RestAprilEducationRepository.Application.Products
                 return ApplicationResult.Failure("Product not found.", HttpStatusCode.NotFound);
             }
 
-            await productRepository.DeleteAsync(id);
+            await productRepository.DeleteAsync(product);
 
             return ApplicationResult.Success();
         }
