@@ -1,4 +1,5 @@
 using RestAprilEducationRepository.API.Endpoints.Users.Create;
+using RestAprilEducationRepository.API.Endpoints.Users.Login;
 
 namespace RestAprilEducationRepository.API.Endpoints.Users
 {
@@ -7,7 +8,8 @@ namespace RestAprilEducationRepository.API.Endpoints.Users
         public static void AddUserEndpoints(this WebApplication app)
         {
             app.MapGroup("api/users")
-                .AddCreateUserEndpoint();
+                .AddCreateUserEndpoint()
+                .AddLoginUserEndpoint();
         }
     }
 }
