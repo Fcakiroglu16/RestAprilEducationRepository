@@ -6,6 +6,7 @@ using RestAprilEducationRepository.Application.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using RestAprilEducationRepository.Domain;
 
 namespace RestAprilEducationRepository.Persistence
 {
@@ -26,6 +27,10 @@ namespace RestAprilEducationRepository.Persistence
                     });
             });
 
+
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+
+
             var applicationAssembly = typeof(ApplicationAssembly).Assembly;
             var persistenceAssembly = typeof(PersistenceAssembly).Assembly;
 
@@ -41,7 +46,7 @@ namespace RestAprilEducationRepository.Persistence
                     services.AddScoped(serviceType, implementationType);
             }
 
-            //services.AddScoped<IProductRepository, ProductRepositoryWithInMemory>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

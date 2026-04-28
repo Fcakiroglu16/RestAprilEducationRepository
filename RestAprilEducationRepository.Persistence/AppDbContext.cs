@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RestAprilEducationRepository.Domain;
 
 namespace RestAprilEducationRepository.Persistence
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    public class AppDbContext(DbContextOptions<AppDbContext> options)
+        : IdentityDbContext<AppUser, AppRole, Guid>(options)
     {
         public DbSet<Product> Products { get; set; }
 

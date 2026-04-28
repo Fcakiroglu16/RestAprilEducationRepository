@@ -18,7 +18,7 @@ namespace RestAprilEducationRepository.API.Endpoints.Products
                 async ([FromRoute] int id, [FromBody] UpdateProductRequest request,
                     [FromServices] IProductsApplication productsApplication) =>
                 {
-                    (await productsApplication.Update(id, request)).ToResult();
+                    (await productsApplication.UpdateAsync(id, request)).ToResult();
                 }).AddEndpointFilter<ValidationFilter<UpdateProductRequest>>().MapToApiVersion(1, 0);
 
             return group;

@@ -16,9 +16,10 @@ namespace RestAprilEducationRepository.Application.Products
     public class ProductsApplication(
         IProductRepository productRepository,
         ILogger<ProductsApplication> logger,
-        ILoggerFactory loggerFactory) : IProductsApplication
+        ILoggerFactory loggerFactory,
+        IUnitOfWork unitOfWork) : IProductsApplication
     {
-        public async Task<ApplicationResult<List<ProductDto>>> GetAll()
+        public async Task<ApplicationResult<List<ProductDto>>> GetAllAsync()
         {
             logger.LogInformation("GetAll methodu çalıştı");
 
@@ -36,7 +37,7 @@ namespace RestAprilEducationRepository.Application.Products
             return ApplicationResult<List<ProductDto>>.Success(productsAsDto);
         }
 
-        public async Task<ApplicationResult<List<ProductDto>>> GetAllWithPaged(int pageNumber, int pageSize)
+        public async Task<ApplicationResult<List<ProductDto>>> GetAllWithPagedAsync(int pageNumber, int pageSize)
         {
             var productList = await productRepository.GetAllWithPagedAsync(pageNumber, pageSize);
 
@@ -48,9 +49,15 @@ namespace RestAprilEducationRepository.Application.Products
         }
 
 
-        public async Task<ApplicationResult<CreateProductResponse>> Create(CreateProductRequest request)
+        public async Task<ApplicationResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)
         {
+            //Task(Reference type -heap )  ValueTask(value type -stack) => Async işlemlerde kullanılır. Task, ValueTask'ten daha ağırdır. ValueTask, performans kritik durumlarda tercih edilir.
+
             var hasProduct = await productRepository.AnyAsync(request.Name);
+
+
+            //var result = await Task.WhenAll(hasProduct, hasProduct2, hasProduct3);
+
 
             //Result Pattern => Success, Failure
 
@@ -73,10 +80,12 @@ namespace RestAprilEducationRepository.Application.Products
             await productRepository.AddAsync(product);
 
 
+            await unitOfWork.CommitAsync();
+
             return ApplicationResult<CreateProductResponse>.Success(new CreateProductResponse(product.Id));
         }
 
-        public async Task<ApplicationResult> Update(int id, UpdateProductRequest request)
+        public async Task<ApplicationResult> UpdateAsync(int id, UpdateProductRequest request)
         {
             var product = await productRepository.GetByIdAsync(id);
 
@@ -97,11 +106,11 @@ namespace RestAprilEducationRepository.Application.Products
             product.Price = request.Price;
 
             await productRepository.UpdateAsync(product);
-
+            await unitOfWork.CommitAsync();
             return ApplicationResult.Success();
         }
 
-        public async Task<ApplicationResult> Delete(int id)
+        public async Task<ApplicationResult> DeleteAsync(int id)
         {
             var product = await productRepository.GetByIdAsync(id);
 
@@ -111,7 +120,7 @@ namespace RestAprilEducationRepository.Application.Products
             }
 
             await productRepository.DeleteAsync(product);
-
+            await unitOfWork.CommitAsync();
             return ApplicationResult.Success();
         }
     }
