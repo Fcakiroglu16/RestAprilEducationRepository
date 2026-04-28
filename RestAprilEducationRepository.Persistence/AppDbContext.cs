@@ -37,6 +37,12 @@ namespace RestAprilEducationRepository.Persistence
                 .HasForeignKey(p => p.CategoryId);
 
 
+            modelBuilder.Entity<UserDetail>(ud => { ud.HasKey(x => x.UserId); });
+
+            modelBuilder.Entity<UserDetail>().HasOne(ud => ud.AppUser).WithOne(au => au.UserDetail)
+                .HasForeignKey<UserDetail>(ud => ud.UserId);
+
+
             base.OnModelCreating(modelBuilder);
         }
     }

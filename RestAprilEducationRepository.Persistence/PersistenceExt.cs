@@ -28,6 +28,9 @@ namespace RestAprilEducationRepository.Persistence
             });
 
 
+            //UserManager<AppUser> => user ile ilgili işlemler
+            //RoleManager<AppRole> => role ile ilgili işlemler
+            //SignInManager<AppUser> => sign in ile ilgili işlemler
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
 
 
