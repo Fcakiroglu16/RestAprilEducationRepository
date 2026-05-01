@@ -12,8 +12,9 @@ namespace RestAprilEducationRepository.API.Endpoints.Products
         public static RouteGroupBuilder AddGetAllProductEndpoint(this RouteGroupBuilder group)
         {
             group.MapGet("/",
-                async ([FromServices] IProductsApplication productsApplication) =>
-                (await productsApplication.GetAllAsync()).ToResult()).MapToApiVersion(1, 0);
+                    async ([FromServices] IProductsApplication productsApplication) =>
+                    (await productsApplication.GetAllAsync()).ToResult()).MapToApiVersion(1, 0)
+                .RequireAuthorization("city-policy");
 
             return group;
         }
