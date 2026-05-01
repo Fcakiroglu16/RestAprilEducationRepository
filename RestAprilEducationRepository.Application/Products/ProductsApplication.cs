@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Numerics;
+using System.Security.Claims;
 using System.Text;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestAprilEducationRepository.Application.Products.Create;
@@ -17,10 +19,14 @@ namespace RestAprilEducationRepository.Application.Products
         IProductRepository productRepository,
         ILogger<ProductsApplication> logger,
         ILoggerFactory loggerFactory,
-        IUnitOfWork unitOfWork) : IProductsApplication
+        IUnitOfWork unitOfWork,
+        IHttpContextAccessor contextAccessor) : IProductsApplication
     {
         public async Task<ApplicationResult<List<ProductDto>>> GetAllAsync()
         {
+            var userId = contextAccessor.HttpContext.User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier);
+
+
             logger.LogInformation("GetAll methodu çalıştı");
 
             var loggerFromFactory = loggerFactory.CreateLogger("ProductsApplicationCategoryName");

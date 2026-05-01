@@ -1,5 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using RestAprilEducationRepository.API.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RestAprilEducationRepository.API.Endpoints.ExceptionHandlerExamples;
@@ -78,6 +80,8 @@ builder.Services.AddAuthentication(congiure =>
     });
 
 
+builder.Services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
+
 builder.Services.AddAuthorization(options =>
 {
     //role-based authorization
@@ -102,6 +106,12 @@ builder.Services.AddAuthorization(options =>
             configurePolicy.AuthenticationSchemes.Add("branch-schema");
             configurePolicy.RequireClaim("branch-id");
         });
+
+    options.AddPolicy("min-age-policy", configurePolicy =>
+    {
+        configurePolicy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+        configurePolicy.AddRequirements(new MinimumAgeRequirement(minimumAge: 18));
+    });
 });
 
 
