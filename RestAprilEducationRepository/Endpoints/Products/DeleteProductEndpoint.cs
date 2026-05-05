@@ -10,9 +10,10 @@ namespace RestAprilEducationRepository.API.Endpoints.Products
         public static RouteGroupBuilder AddDeleteProductEndpoint(this RouteGroupBuilder group)
         {
             group.MapDelete("/{id:int}",
-                async ([FromRoute] int id,
-                        [FromServices] IProductsApplication productsApplication) =>
-                    (await productsApplication.DeleteAsync(id)).ToResult()).MapToApiVersion(1, 0);
+                    async ([FromRoute] int id,
+                            [FromServices] IProductsApplication productsApplication) =>
+                        (await productsApplication.DeleteAsync(id)).ToResult()).MapToApiVersion(1, 0)
+                .RequireRateLimiting("fixed-windows-limiter");
 
 
             return group;

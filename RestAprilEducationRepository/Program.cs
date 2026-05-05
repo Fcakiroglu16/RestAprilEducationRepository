@@ -1,17 +1,19 @@
+using System.Security.Claims;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using RestAprilEducationRepository.API.Authorization;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RestAprilEducationRepository.API.Authorization;
 using RestAprilEducationRepository.API.Endpoints.ExceptionHandlerExamples;
 using RestAprilEducationRepository.API.Endpoints.Metrics;
 using RestAprilEducationRepository.API.Endpoints.Products;
 using RestAprilEducationRepository.API.Endpoints.Users;
 using RestAprilEducationRepository.API.Endpoints.Versioning;
-using RestAprilEducationRepository.API.Metrics;
 using RestAprilEducationRepository.API.ExceptionsHandlers;
 using RestAprilEducationRepository.API.Extensions;
+using RestAprilEducationRepository.API.Metrics;
 using RestAprilEducationRepository.Application;
 using RestAprilEducationRepository.Application.Products;
 using RestAprilEducationRepository.Application.Products.Create;
@@ -19,10 +21,85 @@ using RestAprilEducationRepository.Domain.Exceptions;
 using RestAprilEducationRepository.Persistence;
 using Scalar.AspNetCore;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddPolicy("sms-policy", context =>
+    {
+        var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
+
+        var userId = context.User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)!.Value!;
+
+        var tenantId = context.Request.Headers.First(x => x.Key == "tenantId").Value.First();
+        return RateLimitPartition.GetFixedWindowLimiter(ipAddress, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 30,
+            Window = TimeSpan.FromMinutes(1),
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 5
+        });
+
+
+        return RateLimitPartition.GetFixedWindowLimiter(userId, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 30,
+            Window = TimeSpan.FromMinutes(1),
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 5
+        });
+
+        return RateLimitPartition.GetFixedWindowLimiter(tenantId, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 30,
+            Window = TimeSpan.FromMinutes(1),
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 5
+        });
+    });
+    options.AddFixedWindowLimiter("fixed-windows-limiter", options =>
+    {
+        options.PermitLimit = 10;
+        options.Window = TimeSpan.FromMinutes(1);
+        options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 2;
+    });
+
+
+    options.AddSlidingWindowLimiter("sliding-windows-limiter", options =>
+    {
+        options.PermitLimit = 15;
+        options.Window = TimeSpan.FromMinutes(1);
+        options.SegmentsPerWindow = 6; // Divide window into 6 segments (10 seconds each)
+        options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 3;
+    });
+
+    options.AddTokenBucketLimiter("token-bucket", options =>
+    {
+        options.TokenLimit = 20;
+        options.TokensPerPeriod = 5;
+        options.ReplenishmentPeriod = TimeSpan.FromSeconds(10);
+        options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 5;
+        options.AutoReplenishment = true;
+    });
+
+
+    options.AddConcurrencyLimiter("concurrency-limit", options =>
+    {
+        options.PermitLimit = 5;
+        options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 0;
+    });
+});
+
+
 builder.AddServiceDefaults();
+
 
 // Add services to the container.
 
