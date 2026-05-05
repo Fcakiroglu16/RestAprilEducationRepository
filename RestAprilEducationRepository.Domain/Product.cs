@@ -6,7 +6,7 @@ using RestAprilEducationRepository.Domain.Exceptions;
 
 namespace RestAprilEducationRepository.Domain
 {
-    // object = data + behavior
+    // object = data + behavior => rich domain model / anemic domain model
     public class Product
     {
         public int Id { get; set; }
@@ -22,5 +22,16 @@ namespace RestAprilEducationRepository.Domain
         public int CategoryId { get; set; }
 
         public Category Category { get; set; } = null!;
+
+
+        public void SetPrice(decimal price)
+        {
+            if (price < 0)
+            {
+                throw new Exception("fiyat alanı 0'dan küçük olamaz");
+            }
+
+            Price = price;
+        }
     }
 }

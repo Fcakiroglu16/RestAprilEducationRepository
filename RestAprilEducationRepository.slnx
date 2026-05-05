@@ -16,7 +16,10 @@
   <Folder Name="/src/Presentation/">
     <Project Path="RestAprilEducationRepository/RestAprilEducationRepository.API.csproj" />
   </Folder>
-  <Folder Name="/test/" />
+  <Folder Name="/test/">
+    <Project Path="RestAprilEducationRepository.ApplicationIntegrationTest/RestAprilEducationRepository.ApplicationIntegrationTest.csproj" Id="3a862ebc-e024-4ae4-9942-c382912f8c87" />
+    <Project Path="RestAprilEducationRepository.DomainUnitTest/RestAprilEducationRepository.DomainUnitTest.csproj" Id="c88525ba-8d73-4366-81fd-366e2f12cb29" />
+  </Folder>
   <Project Path="RestAprilEducationRepository.AppHost/RestAprilEducationRepository.AppHost.csproj" Id="726ad76c-a07d-4956-9837-70655a360acb" />
   <Project Path="RestAprilEducationRepository.RazorPages/RestAprilEducationRepository.RazorPages.csproj" />
   <Project Path="RestAprilEducationRepository.ServiceDefaults/RestAprilEducationRepository.ServiceDefaults.csproj" />
