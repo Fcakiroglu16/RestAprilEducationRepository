@@ -1,0 +1,23 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using RestAprilEducationRepository.API.Extensions;
+using RestAprilEducationRepository.Application;
+using RestAprilEducationRepository.Application.Products;
+using RestAprilEducationRepository.Application.Products.Create;
+
+namespace RestAprilEducationRepository.API.Endpoints.Products.Create.V1
+{
+    public static class FilterExampleEndpoint
+    {
+        public static RouteGroupBuilder AddCreateProductEndpoint(this RouteGroupBuilder group)
+        {
+            group.MapPost("/",
+                    async ([FromBody] CreateProductRequest request,
+                            [FromServices] IProductsApplication productsApplication) =>
+                        (await productsApplication.CreateAsync(request)).ToResult())
+                .AddEndpointFilter<ValidationFilter<CreateProductRequest>>().MapToApiVersion(1, 0);
+
+
+            return group;
+        }
+    }
+}
