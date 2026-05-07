@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/gRPCExample/">
+    <Project Path="GrpcServer/GrpcServer.csproj" Id="58dcefdc-ac55-4adc-9c3d-94cf6d00e5f7" />
+    <Project Path="RestClient/RestClient.csproj" Id="53fbdbaa-4686-4d33-9263-1bec67cf9d4c" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Application/">
     <Project Path="RestAprilEducationRepository.Application/RestAprilEducationRepository.Application.csproj" Id="53cdd1c4-a5cb-4d4d-93a4-d758fc1330c3" />

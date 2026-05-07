@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+option csharp_namespace = "Todo.RestClient.Protos";
+service TodoService {
+	// Unary - send one request, get one response
+	rpc CreateTodo (CreateTodoRequest) returns (TodoItem);
+
+	// Unary - send one request, get one response
+	rpc DeleteTodo (DeleteTodoRequest) returns (DeleteTodoResponse);
+
+	// Server Streaming - send one request, server streams back multiple responses
+	rpc ListTodos (ListTodosRequest) returns (stream TodoItem);
+
+	// Client Streaming - client streams multiple requests, server replies once
+	rpc BulkCreateTodos (stream CreateTodoRequest) returns (BulkCreateResponse);
+
+	// Bidirectional Streaming - both sides stream simultaneously
+	rpc UpdateTodos (stream UpdateTodoRequest) returns (stream TodoItem);
+
+
+}
+
+message TodoItem {
+	int32 id = 1;
+	string title = 2;
+	bool is_completed = 3;
+}
+
+message CreateTodoRequest {
+	string title = 1;
+}
+
+message DeleteTodoRequest {
+	int32 id = 1;
+}
+
+message DeleteTodoResponse {
+	bool success = 1;
+}
+
+message ListTodosRequest {
+	// Empty - list all todos
+}
+
+message BulkCreateResponse {
+	int32 created_count = 1;
+	repeated TodoItem items = 2;
+}
+
+message UpdateTodoRequest {
+	int32 id = 1;
+	string title = 2;
+	bool is_completed = 3;
+}
+
+message GetTodosCountRequest {
+	// Empty
+}
+
+message GetTodosCountResponse {
+	int32 count = 1;
+}
